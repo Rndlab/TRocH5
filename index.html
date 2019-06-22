@@ -1,0 +1,165 @@
+<!doctype html>
+<meta name="viewport" content="width=320,maximum-scale=1.3,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<meta name="x5-orientation" content="portrait">
+<meta name="screen-orientation" content="portrait">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>探歌冒险之旅</title>
+
+ <style>
+ 	*{	-webkit-user-select: none;
+		-moz-user-select: none;
+		-khtml-user-select: none;
+		user-select: none;
+		-webkit-tap-highlight-color:rgba(255,255,255,0)
+		margin:0;padding:0;}
+	body{margin:0;padding:0; overflow:hidden;}
+	::-webkit-scrollbar{width:0;height:1px}
+	::-webkit-scrollbar-thumb{border-radius:5px;-webkit-box-shadow:inset 0 0 5px rgba(0,0,0,.2);background:rgba(0,0,0,.2)}
+	
+ 	.img1{width:100%;height:800px;
+			background:url(img/1.gif) no-repeat center center;
+			background-attachment:fixed;
+			background-size: 100% 100%;
+			transition:background 3s;}
+	.img2{width:100%;height:28%;
+			position:fixed;
+			background:url(img/info.png) no-repeat center center;
+			background-size: 100% 100%;
+			bottom:0;
+			display:none;}
+	.info{width:90%;height:50%;position:relative;padding:10px 20px;color:white;font-size:80%;}
+	#Abtn{width:50%;height:40%;position:absolute;left:0;bottom:0;}
+	#Bbtn{width:50%;height:40%;position:absolute;left:50%;bottom:0;}
+	#startbtn{width:40%;height:50px;position:absolute;right:10px;bottom:5px;
+	background:url(img/start.png) no-repeat center center;
+	background-size: 100% 100%;opacity:0;
+	transition: opacity 5s;}
+	#title{width:80%;height:120px;position:absolute;left:20px;top:35%;
+	background:url(img/title.png) no-repeat center center;
+	background-size: 100% 100%;opacity:0;
+	transition: opacity 4s;}
+	#musicbtn{width:50px;height:50px;position:absolute;left:20px;bottom:5px;
+	background:url(img/music.png) no-repeat center center;
+	background-size: 100% 100%;opacity:0;
+	transition: opacity 4s;}
+ </style>
+ </head>
+ <body>
+
+	<audio loop src="Interlude.mp3" id="audio" autoplay preload="auto"></audio>
+	<div id="title"></div>
+	<div id="startbtn"></div>
+	<div id="musicbtn"></div>
+	<div class="img1" id="img1">
+		
+	</div>
+	<div class="img2" id="img2">
+		<div class="info" id="info"></div>
+		<div id="Abtn"></div><div id="Bbtn"></div>
+	</div>
+
+
+
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> 
+	<script type="text/javascript">
+		img1 = document.getElementById("img1");
+		img2 = document.getElementById("img2");
+		info = document.getElementById("info");
+		Abtn = document.getElementById("Abtn");
+		Bbtn = document.getElementById("Bbtn");
+		startbtn = document.getElementById("startbtn");
+		title = document.getElementById("title");
+		musicbtn = document.getElementById("musicbtn");
+		title.style.opacity = "1";
+		startbtn.style.opacity = "1";
+		musicbtn.style.opacity = "1";
+		character = "";
+		state = 1;
+
+		var page = 0;
+		var str = "";
+		var i = 0;
+		function changetext(){
+		    if (i <= str.length) {
+				info.innerHTML = str.slice(0, i++) + '_';
+			     setTimeout('changetext()', 100);//递归调用
+				state = 0;
+		    }
+		    else{
+		     	info.innerHTML = str;//结束打字,移除 _ 光标
+				i=0;
+				str="";
+				page = page + 1;
+				state = 1;
+		    }
+		}
+
+
+		//--创建页面监听，等待微信端页面加载完毕 触发音频播放
+		document.addEventListener('DOMContentLoaded', function () {
+			function audioAutoPlay() {
+				var audio = document.getElementById('audio');
+					audio.play();
+				document.addEventListener("WeixinJSBridgeReady", function () {
+					audio.play();
+				}, false);
+			}
+			audioAutoPlay();
+		});
+
+		//--创建触摸监听，当浏览器打开页面时，触摸屏幕触发事件，进行音频播放
+		document.addEventListener('touchstart', function () {
+			function audioAutoPlay() {
+				var audio = document.getElementById('audio');
+					audio.play();
+			}
+			audioAutoPlay();
+		});
+		//开始游戏
+		startbtn.addEventListener('touchstart', function () {
+			img1.style.backgroundImage='url(img/forest.jpg)';
+			img2.style.display = 'inline';
+			title.style.display = "none";
+			startbtn.style.display = "none";
+			musicbtn.style.display = "none";
+			str = '今天是难得的周末出游，你选择的目的地是？<br><br>A. 往南的山地公园<br> B. 往北的历史遗迹公园 ';
+			changetext();
+		});
+		
+		Abtn.addEventListener('touchstart', function () {
+			if (page == 1 && state)
+			{img1.style.backgroundImage='url(img/guest.jpg)';
+			str = '你驾车行驶到一个路口，有一个奇怪的人正在朝你招手，似乎是想要搭车，他是？<br><br> A.拿着烧杯的科学怪人<br>B.带着巫师帽的矮人';
+			changetext();}
+
+			if (page == 2 && state)
+			{img1.style.backgroundImage='url(img/quiz.jpg)';
+			character = "科学怪人";
+			str = character + '上车并向你道谢，路上聊天中，他说起有一个困惑已久的谜题，想问一问你能否解答。';
+			changetext();}
+
+			if (page == 3 && state)
+			{img1.style.backgroundImage='url(img/gift.jpg)';
+			str = character + '为了感谢你打开了包裹，决定让你选择一件礼物，你决定选择……<br><br>A.一朵永远都不会衰败的鲜花<br>B.一部永远都不用充电的手机';
+			changetext();}
+
+			if (page == 4 && state)
+			{img1.style.backgroundImage='url(img/car.jpg)';
+			str = '把客人送到目的地之后，你却发现迷路了，并且开进了一个景色奇丽的小山村，你决定……<br><br>A.打开导航系统，回到大路  <br>B.悠闲地打开车载音乐，就在这里驾驶游览吧';
+			changetext();}
+		});
+		
+		Bbtn.addEventListener('touchstart', function () {
+			
+		});
+	</script>
+
+ </body>
+
+</html>
