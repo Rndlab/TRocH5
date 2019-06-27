@@ -1,18 +1,33 @@
 <!doctype html>
-<meta name="viewport" content="width=320,maximum-scale=1.3,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone=no">
 <meta name="x5-orientation" content="portrait">
 <meta name="screen-orientation" content="portrait">
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="apple-mobile-web-app-title" content="探歌冒险之旅">
+<meta charset="UTF-8">
 <html lang="en">
- <head>
-  <meta charset="UTF-8">
-  <title>探歌冒险之旅</title>
+<head>
+<title>探歌冒险之旅</title>
+<link rel="stylesheet" type="text/css" href="loading.css"/> 
+<script src="loading.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=1&amp;lang=zh"></script>
 <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> 
+<script>
+	H5_loading.show();    //显示loding
+	document.onreadystatechange = subSomething;    　　　 //当页面加载状态改变
+
+	function subSomething()
+	{
+		if(document.readyState == "complete")            //判断页面加载状态
+			 H5_loading.hide(); 
+	}
+
+</script>
 
  <style>
  	*{	-webkit-user-select: none;
@@ -29,7 +44,9 @@
 			background:url(img/1.gif) no-repeat center center;
 			background-attachment:fixed;
 			background-size: 100% 100%;
-			transition:background 3s;}
+			transition:background 3s;
+			backface-visibility: hidden; 
+			transform-style: preserve-3d;}
 	.img2{width:100%;height:28%;
 			position:fixed;
 			background:url(img/info.png) no-repeat center center;
@@ -42,7 +59,9 @@
 	#startbtn{width:40%;height:50px;position:absolute;right:10px;bottom:5px;
 	background:url(img/start.png) no-repeat center center;
 	background-size: 100% 100%;opacity:0;
-	transition: opacity 5s;}
+	transition: opacity 5s;
+	backface-visibility: hidden; 
+    transform-style: preserve-3d;}
 	#title{width:80%;height:120px;position:absolute;left:20px;top:35%;
 	background:url(img/title.png) no-repeat center center;
 	background-size: 100% 100%;opacity:0;
@@ -80,6 +99,7 @@
 
 
 	<script type="text/javascript">
+		
 		img1 = document.getElementById("img1");
 		img2 = document.getElementById("img2");
 		info = document.getElementById("info");
