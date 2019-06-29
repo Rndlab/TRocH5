@@ -14,11 +14,48 @@
 <title>探歌冒险之旅</title>
 <link rel="stylesheet" type="text/css" href="loading.css"/> 
 <script src="loading.js" type="text/javascript" charset="utf-8"></script>
+<script src="resloader.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=1&amp;lang=zh"></script>
 <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> 
 <script>
 	H5_loading.show();    //显示loding
+
+	resloader({
+		 resources:{
+			imgs:[
+				'img/1.gif',
+				'img/forest.jpg',
+				'img/gift.jpg',
+				'img/guest.jpg',
+				'img/info.jpg',
+				'img/quiz.jpg',
+				'img/car.jpg',
+				'img/f1.jpg',
+				'img/f2.jpg',
+				'img/f3.jpg',
+				'img/f4.jpg'
+			],
+			audio:[
+				'Interlude.mp3',
+			],
+			
+		},
+		onStart(res){
+		   // res 为资源总数
+			console.log('加载资源的总个数：'+res)
+		},
+		onProgress(res){
+			// res 为 当前个数
+			console.log('当前加载第'+res+'个')
+		},
+		onComplete(res){
+			//res 为 resources资源文件路径集合 
+			console.log(res)
+		}
+
+   })
+
 	document.onreadystatechange = subSomething;    　　　 //当页面加载状态改变
 
 	function subSomething()
@@ -121,7 +158,7 @@
 		function changetext(){
 		    if (i <= str.length) {
 				info.innerHTML = str.slice(0, i++) + '_';
-			     setTimeout('changetext()', 10);//递归调用
+			     setTimeout('changetext()',30);//递归调用
 				state = 0;
 		    }
 		    else{

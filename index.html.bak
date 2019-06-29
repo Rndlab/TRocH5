@@ -14,17 +14,55 @@
 <title>探歌冒险之旅</title>
 <link rel="stylesheet" type="text/css" href="loading.css"/> 
 <script src="loading.js" type="text/javascript" charset="utf-8"></script>
+<script src="resloader.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=1&amp;lang=zh"></script>
 <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> 
 <script>
 	H5_loading.show();    //显示loding
+
+	resloader({
+		 resources:{
+			imgs:[
+				'img/1.gif',
+				'img/forest.jpg',
+				'img/gift.jpg',
+				'img/guest.jpg',
+				'img/info.jpg',
+				'img/quiz.jpg',
+				'img/car.jpg',
+				'img/f1.jpg',
+				'img/f2.jpg',
+				'img/f3.jpg',
+				'img/f4.jpg'
+			],
+			audio:[
+				'Interlude.mp3',
+			],
+			
+		},
+		onStart(res){
+		   // res 为资源总数
+			console.log('加载资源的总个数：'+res)
+		},
+		onProgress(res){
+			// res 为 当前个数
+			console.log('当前加载第'+res+'个')
+		},
+		onComplete(res){
+			//res 为 resources资源文件路径集合 
+			console.log(res)
+		}
+
+   })
+
 	document.onreadystatechange = subSomething;    　　　 //当页面加载状态改变
 
 	function subSomething()
 	{
 		if(document.readyState == "complete")            //判断页面加载状态
 			 H5_loading.hide(); 
+
 	}
 
 </script>
@@ -44,9 +82,7 @@
 			background:url(img/1.gif) no-repeat center center;
 			background-attachment:fixed;
 			background-size: 100% 100%;
-			transition:background 3s;
-			backface-visibility: hidden; 
-			transform-style: preserve-3d;}
+			transition:background 3s;}
 	.img2{width:100%;height:28%;
 			position:fixed;
 			background:url(img/info.png) no-repeat center center;
@@ -59,9 +95,7 @@
 	#startbtn{width:40%;height:50px;position:absolute;right:10px;bottom:5px;
 	background:url(img/start.png) no-repeat center center;
 	background-size: 100% 100%;opacity:0;
-	transition: opacity 5s;
-	backface-visibility: hidden; 
-    transform-style: preserve-3d;}
+	transition: opacity 5s;}
 	#title{width:80%;height:120px;position:absolute;left:20px;top:35%;
 	background:url(img/title.png) no-repeat center center;
 	background-size: 100% 100%;opacity:0;
