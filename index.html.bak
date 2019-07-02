@@ -12,60 +12,11 @@
 <html lang="en">
 <head>
 <title>探歌冒险之旅</title>
-<link rel="stylesheet" type="text/css" href="loading.css"/> 
-<script src="loading.js" type="text/javascript" charset="utf-8"></script>
 <script src="resloader.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdn.bootcss.com/progressbar.js/1.0.1/progressbar.js"></script>
 <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=1&amp;lang=zh"></script>
 <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script> 
-<script>
-	H5_loading.show();    //显示loding
-
-	resloader({
-		 resources:{
-			imgs:[
-				'img/1.gif',
-				'img/forest.jpg',
-				'img/gift.jpg',
-				'img/guest.jpg',
-				'img/info.jpg',
-				'img/quiz.jpg',
-				'img/car.jpg',
-				'img/f1.jpg',
-				'img/f2.jpg',
-				'img/f3.jpg',
-				'img/f4.jpg'
-			],
-			audio:[
-				'Interlude.mp3',
-			],
-			
-		},
-		onStart(res){
-		   // res 为资源总数
-			console.log('加载资源的总个数：'+res)
-		},
-		onProgress(res){
-			// res 为 当前个数
-			console.log('当前加载第'+res+'个')
-		},
-		onComplete(res){
-			//res 为 resources资源文件路径集合 
-			console.log(res)
-		}
-
-   })
-
-	document.onreadystatechange = subSomething;    　　　 //当页面加载状态改变
-
-	function subSomething()
-	{
-		if(document.readyState == "complete")            //判断页面加载状态
-			 H5_loading.hide(); 
-
-	}
-
-</script>
 
  <style>
  	*{	-webkit-user-select: none;
@@ -77,12 +28,18 @@
 	body{margin:0;padding:0; overflow:hidden;height: 100%;}
 	::-webkit-scrollbar{width:0;height:1px}
 	::-webkit-scrollbar-thumb{border-radius:5px;-webkit-box-shadow:inset 0 0 5px rgba(0,0,0,.2);background:rgba(0,0,0,.2)}
-	
+	#container {
+	  margin: 20px;
+	  top:200px;
+	  width: 90%;
+	  height: 8px;
+	  position: absolute;
+	}
  	.img1{width:100%;height:100vh;
 			background:url(img/1.gif) no-repeat center center;
 			background-attachment:fixed;
 			background-size: 100% 100%;
-			transition:background 3s;}
+			transition:background 3s;opacity:0;}
 	.img2{width:100%;height:28%;
 			position:fixed;
 			background:url(img/info.png) no-repeat center center;
@@ -111,7 +68,7 @@
  </style>
  </head>
  <body>
-
+	<div id="container"></div>
 	<audio loop src="Interlude.mp3" id="audio" autoplay preload="auto"></audio>
 	<audio src="ding.mp3" id="ding" preload="auto"></audio>
 	<div id="title"></div>
@@ -144,9 +101,6 @@
 		musicbtn = document.getElementById("musicbtn");
 		ding = document.getElementById("ding");
 		share = document.getElementById("bshare-custom");
-		title.style.opacity = "1";
-		startbtn.style.opacity = "1";
-		musicbtn.style.opacity = "1";
 		character = "";
 		state = 1;
 		screenheight =  window.screen.availHeight;
@@ -155,10 +109,80 @@
 		var str = "";
 		var i = 0;
 		var mark = 0;
+
+		let container = document.querySelector('#container')
+
+		var bar = new ProgressBar.Line(container, {
+		  strokeWidth: 4,
+		  easing: 'easeInOut',
+		  duration: 1400,
+		  color: '#FFEA82',
+		  trailColor: '#eee',
+		  trailWidth: 1,
+		  svgStyle: {width: '100%', height: '100%'},
+		  text: {
+			style: {
+			  // Text color.
+			  // Default: same as stroke color (options.color)
+			  color: '#999',
+			  position: 'absolute',
+			  right: '0',
+			  top: '30px',
+			  padding: 0,
+			  margin: 0,
+			  transform: null
+			},
+			autoStyleContainer: false
+		  },
+		  from: {color: '#FFEA82'},
+		  to: {color: '#ED6A5A'},
+		  step: (state, bar) => {
+			bar.setText(Math.round(bar.value() * 100) + ' %');
+		  }
+		});
+
+		  
+
+			resloader({
+				 resources:{
+					imgs:[
+						'img/1.gif',
+						'img/forest.jpg',
+						'img/gift.jpg',
+						'img/guest.jpg',
+						'img/info.png',
+						'img/quiz.jpg',
+						'img/car.jpg',
+						'img/f1.gif',
+						'img/f2.gif',
+						'img/f3.gif',
+						'img/f4.gif'
+					],
+					
+				},
+				onStart(res){
+				   // res 为资源总数
+					console.log('加载资源的总个数：'+res)
+				},
+				onProgress(res){
+					var pgs = res/11;
+					bar.animate(pgs);
+					if (res == 11)
+					{title.style.opacity = "1";
+					startbtn.style.opacity = "1";
+					musicbtn.style.opacity = "1";
+					img1.style.opacity = "1";
+					container.style.display = "none";
+					}
+				},
+		   })
+
+
+
 		function changetext(){
 		    if (i <= str.length) {
 				info.innerHTML = str.slice(0, i++) + '_';
-			     setTimeout('changetext()', 10);//递归调用
+			     setTimeout('changetext()',30);//递归调用
 				state = 0;
 		    }
 		    else{
@@ -258,7 +282,7 @@
 
 			if (page == 3 && state)
 			{img1.style.backgroundImage='url(img/gift.jpg)';
-			str = character + '为了感谢你打开了包裹，决定让你选择一件礼物，你决定选择……<br><br>A.一朵永远都不会衰败的鲜花<br>B.一部永远都不用充电的手机';
+			str = character + '为了感谢你打开了包裹，决定让你选择一件礼物，你决定选择……<br><br>A.一朵永远都不会衰败的鲜花<br>B.一部永远都不用充电的手机'; 
 			changetext();mark += 1;}
 
 			if (page == 4 && state)
